@@ -175,11 +175,7 @@ console.log('hola');
             </TouchableOpacity>
         </ScrollView>
     </View> 
-
-
-
     <View>
- 
     <Text style={styles.subtitulos}>Paquetes personalizados</Text>
     </View> 
    <View style={styles.dos}>
@@ -205,16 +201,6 @@ console.log('hola');
             </TouchableOpacity>
         </ScrollView>
     </View>
-    <Button
-            onPress={() => {
-                navigation.navigate('DetalleSite', {
-                  itemId: 1,
-                  otherParam: 'lo que sale del boton',
-                });
-                console.log('presionado');
-            }}
-         title='presioname'
-    ></Button>
   </ScrollView>
   );
 }

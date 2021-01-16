@@ -1,0 +1,11 @@
+hacer el back para generar un comentario y recuperarlos
+back y front para los me gusta 
+ver lo de compartir el detalle de el lugar
+crear el login solo con back y front de usuarios temporales
+ hacer funcional el search 
+ modificar estilos de pagina de perfil 
+ hacer el back para el perfil
+
+ boton de reservar 
+
+ sacar cosas de ui material https://reactnativeexample.com/a-simple-and-smooth-content-loader-for-react-native/

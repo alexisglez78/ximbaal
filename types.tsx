@@ -3,7 +3,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   DetalleSite: {itemId:number,otherParam:string};
   Login:undefined;
-  DetalleReservacion:undefined
+  DetalleReservacion:{itemId:number,otherParam:string}
 };
 
 export type BottomTabParamList = {

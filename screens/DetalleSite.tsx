@@ -52,7 +52,7 @@ export default function DetalleSite({
           <View style={{width:360,height:200}}>
         <ImageBackground source={imagen} style={{height: 200,width:'100%'}}>
           <HeaderDetalle
-          onPress={() => navigation.replace('DetalleReservacion')} 
+          onPress={() => navigation.replace('Root')} 
           />
           </ImageBackground>
           </View>
@@ -157,7 +157,14 @@ paddingTop:'2%'}}>
            borderRadius: 5,
            paddingVertical: 11,
            paddingHorizontal: 15
-        }}>
+        }}
+        onPress={() => 
+          navigation.navigate('DetalleReservacion', {
+            itemId:1997,
+            otherParam: 'parametro',
+          })
+        } 
+        >
           <Text style={{
             fontSize: 20,
             color: "#fff",

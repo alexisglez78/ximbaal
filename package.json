@@ -40,8 +40,10 @@
     "react-native-paper": "^4.4.1",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
+    "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "save": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
@@ -49,6 +51,7 @@
     "@types/react-native": "~0.63.2",
     "@types/react-native-vector-icons": "^6.4.6",
     "jest-expo": "~39.0.0",
+    "react-native-masked-loader": "^1.1.4",
     "typescript": "~3.9.5"
   },
   "private": true,
