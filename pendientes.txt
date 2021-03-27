@@ -9,3 +9,12 @@ crear el login solo con back y front de usuarios temporales
  boton de reservar 
 
  sacar cosas de ui material https://reactnativeexample.com/a-simple-and-smooth-content-loader-for-react-native/
+
+
+ a nombre de quien queda la reservacion
+fecha de inicio y salida
+numero de personas
+precio por personas
+
+sacar el nombre de los iconos de aqui :
+https://fontawesome.com/icons?d=gallery&p=2&q=sett&m=free
