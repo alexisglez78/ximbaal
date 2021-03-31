@@ -19,10 +19,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "xiimbacom.paul.xiimbal"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "android": {
+      "package": "xiimbacom.paul.xiimbal"
     }
   }
 }

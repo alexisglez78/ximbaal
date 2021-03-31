@@ -1,9 +1,8 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll"
@@ -12,6 +11,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@baronha/react-native-multiple-image-picker": "^0.2.9",
     "@expo/vector-icons": "^10.0.0",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "^3.0.4",
@@ -28,12 +28,15 @@
     "expo-linking": "^1.0.1",
     "expo-splash-screen": "~0.6.2",
     "expo-status-bar": "~1.0.2",
+    "expo-updates": "~0.3.2",
     "expo-web-browser": "~8.5.0",
     "faker": "^5.1.0",
     "link": "^0.1.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
+    "react-native": "~0.63.3",
+    "react-native-action-button": "^2.8.5",
+    "react-native-floating-action": "^1.21.0",
     "react-native-gallery-swiper": "^1.26.4",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-image-modal": "^2.0.3",
@@ -41,9 +44,13 @@
     "react-native-masonry-list": "^2.16.1",
     "react-native-modal-datetime-picker": "^9.0.0",
     "react-native-paper": "^4.4.1",
+    "react-native-raw-bottom-sheet": "^2.2.0",
+    "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
+    "react-native-status-bar-height": "^2.6.0",
     "react-native-svg": "^12.1.0",
+    "react-native-unimodules": "~0.11.0",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
     "save": "^2.4.0"
@@ -53,8 +60,11 @@
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "@types/react-native-vector-icons": "^6.4.6",
+    "babel-jest": "~25.2.6",
+    "jest": "~25.2.6",
     "jest-expo": "~39.0.0",
     "react-native-masked-loader": "^1.1.4",
+    "react-test-renderer": "~16.13.1",
     "typescript": "~3.9.5"
   },
   "private": true,
@@ -62,5 +72,7 @@
     "assets": [
       "/assets/fonts/"
     ]
-  }
+  },
+  "name": "ximbaal",
+  "version": "1.0.0"
 }

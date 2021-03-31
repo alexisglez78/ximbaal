@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet,Text, View ,ImageBackground, Button,Alert ,Image} from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Button, Alert, Image, Pressable } from 'react-native';
 import { FlatList, gestureHandlerRootHOC, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import AsyncStorage from '@react-native-community/async-storage'
 import { Searchbar } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Ionicons';
+import RBSheet from "react-native-raw-bottom-sheet";
+import SheetInicio from '../components/inicioPage/SheetInicio';
+
 // const Pr = (props) => {
 //     return <Text>{props.name}</Text>
 // }
@@ -14,217 +18,194 @@ const image = { uri: "https://reactjs.org/logo-og.png" };
 
 
 export default function InicioScreen({
-    navigation,
-  }: StackScreenProps<RootStackParamList, 'NotFound'>) {
-    const [cdmx, setCdmx]= React.useState([]);
-    const [user,useUser] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
-    const onChangeSearch = query => setSearchQuery(query);
+  navigation,
+}: StackScreenProps<RootStackParamList, 'NotFound'>) {
+  const refRBSheet = React.useRef();
+  const [cdmx, setCdmx] = React.useState([]);
+  const [user, useUser] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const onChangeSearch = query => setSearchQuery(query);
 
-    React.useEffect(() => {
-      AsyncStorage.getItem('user')
-   .then(resp => {
-     if(resp){
-       var respuesta =JSON.parse(resp);
-    // console.log(Object.values(respuesta));
-      useUser(true);
-    }else{
-      useUser(false);
-      navigation.navigate('Login');
-     }
-   })
+  React.useEffect(() => {
+    AsyncStorage.getItem('user')
+      .then(resp => {
+        if (resp) {
+          var respuesta = JSON.parse(resp);
+          useUser(true);
+        } else {
+          useUser(false);
+          navigation.navigate('Login');
+        }
+      })
 
-        fetch('https://ludotecapiccolo.000webhostapp.com/')
-        .then(response => response.json())
-        .then(data =>{
-          console.log(data);
-            setCdmx(data);
-        });
-      }, []);
-console.log('hola');
+    fetch('https://ludotecapiccolo.000webhostapp.com/')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setCdmx(data);
+      });
+  }, []);
+  console.log('hola');
   return (
-    
-    <ScrollView style={{ backgroundColor:'#eee'}}>
-    <View style={styles.cabecera}>
-    
-    <ImageBackground source={{uri:'https://i1.wp.com/blog.vivaaerobus.com/wp-content/uploads/2020/04/paisaje-de-los-cabos.jpg?resize=650%2C364&ssl=1'}} style={styles.imagen}>
-        <View style={{position:'relative'}}>
-        <Searchbar
-        style={styles.searchBar}
-      placeholder="Search"
-      onChangeText={onChangeSearch}
-      value={searchQuery}
-    />
-        </View>
-    </ImageBackground>
-    </View>
-    <View>
-    <Text style={styles.subtitulos}>Cdmx</Text>
-    </View>
-    <View style={styles.left}>
-    <ScrollView >
-      <FlatList
-      horizontal
-      data={cdmx}
-      renderItem={({item}) => 
-      <TouchableOpacity
-       style={styles.cdmxTouchable}
-       onPress={() => {
-        console.log('Prueba de un touchable');
-        var id=item.id;
-        navigation.navigate('DetalleSite', {
-          itemId: id,
-          otherParam: 'ewfwefwe',
-        });
-    }}
-       >
-        <ImageBackground
-        source={{uri:item.imagen}}
-        style={styles.cdmxImage}
 
-         >
-           <Text style={styles.subtitle2}>{item.nombre}</Text>
-           </ImageBackground>
-        </TouchableOpacity>}
-      keyExtractor= {item => String(item.id)}
+    <ScrollView style={{ backgroundColor: '#eee' }}>
+      <View style={styles.cabecera}>
+
+        <ImageBackground source={{ uri: 'https://i1.wp.com/blog.vivaaerobus.com/wp-content/uploads/2020/04/paisaje-de-los-cabos.jpg?resize=650%2C364&ssl=1' }} style={styles.imagen}>
+          <View style={{ position: 'relative', opacity: 0.7 }}>
+            <Searchbar
+              style={styles.searchBar}
+              placeholder="Buscar"
+              onChangeText={onChangeSearch}
+              value={searchQuery}
+            />
+          </View>
+        </ImageBackground>
+      </View>
+      <View>
+        <Text style={styles.subtitulos}>Personalizados para ti</Text>
+      </View>
+      <View style={styles.left}>
+        <ScrollView >
+          <FlatList
+            horizontal
+            data={cdmx}
+            renderItem={({ item }) =>
+              <TouchableOpacity style={styles.cdmxTouchable}
+                onPress={() => {
+                  console.log(item)
+                  var id = item.id;
+                  navigation.navigate('DetalleSite', {
+                    itemId: id,
+                    otherParam: 'ewfwefwe',
+                  });
+                }}
+                onLongPress={() => refRBSheet.current.open()}
+              >
+                <ImageBackground
+                  source={{ uri: item.imagen }}
+                  style={styles.cdmxImage}
+                >
+                  <View style={{ marginLeft: 5, marginRight: 10, height: 30, alignItems: 'flex-end' }}>
+                    <Pressable >
+                      <Icon name='ios-heart' color="#eee" style={{ fontSize: 25, marginLeft: 5, height: '100%', marginTop: 5 }}></Icon>
+                    </Pressable>
+                  </View>
+                </ImageBackground>
+                <Text style={{ marginLeft: 5, marginTop: '-10%', fontSize: 15, color: '#1f262edb' }}>{item.nombre}</Text>
+                <Text style={{ marginLeft: 5, fontSize: 12, marginTop: 5, color: '#1f262edb' }}>A 11987 personas les gusta</Text>
+              </TouchableOpacity>
+            }
+            keyExtractor={item => String(item.id)}
+          >
+          </FlatList>
+        </ScrollView>
+      </View>
+      <View>
+        <Text style={styles.subtitulos}>Mas Populares</Text>
+      </View>
+      <View style={styles.dos}>
+        <ScrollView>
+          <FlatList
+            data={cdmx}
+            renderItem={({ item }) =>
+              <TouchableOpacity style={styles.cdmxTouchable2}
+                onPress={() => {
+                  var id = item.id;
+                  navigation.navigate('DetalleSite', {
+                    itemId: id,
+                    otherParam: 'ewfwefwe',
+                  });
+                }}
+                onLongPress={() => refRBSheet.current.open()}
+              >
+                <ImageBackground
+                  source={{ uri: item.imagen }}
+                  style={styles.cdmxImage}
+                >
+                  <View style={{ marginLeft: 5, marginRight: 10, height: 30, alignItems: 'flex-end' }}>
+                    <Pressable>
+                      <Icon name='ios-heart' color="#eee" style={{ fontSize: 25, marginLeft: 5, height: '100%', marginTop: 5 }}></Icon>
+                    </Pressable>
+                  </View>
+                </ImageBackground>
+                <Text style={{ marginLeft: 5, marginTop: '-6%', fontSize: 15, color: '#1f262edb' }}>{item.nombre}</Text>
+                <Text style={{ marginLeft: 5, fontSize: 12, marginTop: 5, color: '#1f262edb' }}>A 11987 personas les gusta</Text>
+              </TouchableOpacity>
+            }
+            keyExtractor={item => String(item.id)}
+          >
+          </FlatList>
+        </ScrollView>
+      </View>
+      <RBSheet
+        ref={refRBSheet}
+        closeOnDragDown={true}
+        closeOnPressMask={false}
+        customStyles={{
+          wrapper: {
+            backgroundColor: "transparent"
+          },
+          draggableIcon: {
+            backgroundColor: "#000"
+          }
+        }}
       >
-      </FlatList>
-        </ScrollView>
-    </View>
-    <View>
-    <Text style={styles.subtitulos}>Categorias</Text>
-    </View>
-    <View style={styles.dos}>
-
-        <ScrollView horizontal={true} >
-        <TouchableOpacity 
-      onPress={() => {
-        navigation.navigate('DetalleSite', {
-          itemId: 1,
-          otherParam: 'Toque un touchable ',
-        });
-        console.log('Prueba de un touchable');
-    }}
-     style={styles.buttonAccions}
-     >
-        <Text style={styles.textoButtons}>Aqui compa</Text>
-     </TouchableOpacity >
-    <TouchableOpacity 
-    style={styles.buttonAccions}
-      onPress={() => {
-        navigation.navigate('DetalleSite', {
-          itemId: 1,
-          otherParam: 'Toque un touchable ',
-        });
-    }}
-     >
-        <Text style={styles.textoButtons}>Romance</Text>
-     </TouchableOpacity >
-   
-    <TouchableOpacity 
-      onPress={() => {
-        navigation.navigate('DetalleSite', {
-          itemId: 1,
-          otherParam: 'Toque un touchable ',
-        });
-    }}
-     style={styles.buttonAccions}
-     >
-        <Text style={styles.textoButtons}>Aventura</Text>
-     </TouchableOpacity >
-    <TouchableOpacity 
-      onPress={() => {
-        navigation.navigate('DetalleSite', {
-          itemId: 1,
-          otherParam: 'Toque un touchable ',
-        });
-        console.log('Prueba de un touchable');
-    }}
-     style={styles.buttonAccions}
-     >
-        <Text style={styles.textoButtons}>Presiona este</Text>
-     </TouchableOpacity >
-        </ScrollView>
-      
-    </View>
-
-
-     {/* aqui tenemos problemas  */}
-    <View>
-    <Text style={styles.subtitulos}>Mas populares</Text>
-    </View>
-    <View style={styles.dos}> 
-    <ScrollView horizontal={true}>
-            <TouchableOpacity 
-            style={styles.profileImgContainer}
-            onPress={ () => {alert('Search!')}}
-            >
-                <ImageBackground source={image} style={styles.imageRounded}><Text></Text></ImageBackground>
-            </TouchableOpacity>
-            <TouchableOpacity 
-            style={styles.profileImgContainer}
-            onPress={ () => {alert('Search!')}}
-            >
-                <ImageBackground source={image} style={styles.imageRounded}><Text></Text></ImageBackground>
-            </TouchableOpacity>
-            <TouchableOpacity 
-            style={styles.profileImgContainer}
-            onPress={ () => {alert('Search!')}}
-            >
-                <ImageBackground source={image} style={styles.imageRounded}><Text></Text></ImageBackground>
-            </TouchableOpacity>
-        </ScrollView>
-    </View> 
-    <View>
-    <Text style={styles.subtitulos}>Paquetes personalizados</Text>
-    </View> 
-   <View style={styles.dos}>
-    <ScrollView horizontal={true}>
-            <TouchableOpacity 
-            style={styles.profileImgContainer}
-            // onPress={ () => StackNavigator('SecondPage', { name: 'Awesomepankaj' })}
-            >
-                <ImageBackground source={image} style={styles.imageRounded}><Text></Text></ImageBackground>
-            </TouchableOpacity>
-            <TouchableOpacity 
-            style={styles.profileImgContainer}
-            onPress={ () => {alert('Search!')}}
-            >
-                <ImageBackground source={image} style={styles.imageRounded}><Text></Text></ImageBackground>
-            </TouchableOpacity>
-            <TouchableOpacity 
-            style={styles.profileImgContainer}
-            onPress={ () => {alert('Search!')}}
-            >
-
-                <ImageBackground source={image} style={styles.imageRounded}><Text></Text></ImageBackground>
-            </TouchableOpacity>
-        </ScrollView>
-    </View>
-  </ScrollView>
+        <SheetInicio />
+      </RBSheet>
+    </ScrollView>
   );
 }
 
-const headerHeight=0;
+const headerHeight = 0;
 
 const styles = StyleSheet.create({
   container: {
     // alignItems: 'center',
     // justifyContent: 'center',
   },
-  left:{
-    marginLeft:5
+  left: {
+    marginLeft: 5
   },
-  cdmxTouchable:{
-    width:140,
-    height:140,
-    marginTop:5,
-    marginBottom: 5
+  cdmxTouchable: {
+    width: 170,
+    height: 140,
+    marginTop: 5,
+    marginBottom: 5,
+    marginRight: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 0,
+    backgroundColor: 'white',
+    elevation: 3,
+    borderRadius: 3
   },
-  cdmxImage:{
-    width: 130,
-    height: 130,
-    borderRadius:12,
+  cdmxTouchable2: {
+    width: '95%',
+    height: 170,
+    marginTop: 5,
+    marginBottom: 5,
+    marginRight: 20,
+    marginLeft: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 10,
+      height: 2,
+    },
+    shadowOpacity: 3,
+    shadowRadius: 5,
+    backgroundColor: 'white',
+    elevation: 3,
+    borderRadius: 3
+  },
+  cdmxImage: {
+    width: '100%',
+    height: '80%',
+    borderRadius: 2,
     overflow: "hidden",
   },
   profileImgContainer: {
@@ -233,33 +214,31 @@ const styles = StyleSheet.create({
     width: 130,
     borderRadius: 20,
   },
-  imageRounded:{
+  imageRounded: {
     width: 130,
     height: 130,
-    borderRadius:15,
+    borderRadius: 15,
     overflow: "hidden",
-    // borderWidth: 3,
   },
-  buttonAccions:{
-     margin:5,
-     elevation: 8,
-     backgroundColor: "#009688",
-     borderRadius: 10,
-     paddingVertical: 6,
-     paddingHorizontal: 8,
-     
+  buttonAccions: {
+    margin: 5,
+    elevation: 8,
+    backgroundColor: "white",
+    borderRadius: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+
   },
-  textoButtons:{
-    color: 'white',
+  textoButtons: {
+    color: 'black',
     fontSize: 20,
-    margin:10
-    
+    margin: 10
+
   },
   text: {
     color: "white",
     fontSize: 30,
-    marginTop:17,
-    // fontFamily: 'SpaceMono-Regular',
+    marginTop: 17,
   },
   title: {
     fontSize: 20,
@@ -269,45 +248,39 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
-  cabecera:{
-      width:'100%',
-      // position: 'absolute',
-      // top: 0,
-      // left: 0,
-      // right: 0,
-      // zIndex: 10,
-      // height: headerHeight,
-    },
-    imagen:{
-        height: 200,
-        borderBottomRightRadius:20,
-        borderBottomLeftRadius:20,
-        resizeMode:'center',
-        
+  cabecera: {
+    width: '100%',
   },
-  dos:{
-    flexDirection: 'row',
-    marginTop:5,
-    marginBottom: 5
-  },
-  subtitulos:{
-      fontSize: 20,
-      color:'#353a42',
-      marginLeft:5
-  },
-  searchBar:{
-    marginTop:30,
-    marginLeft:30,
-    marginRight:30,
+  imagen: {
+    height: 200,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    resizeMode: 'center',
 
   },
-  subtitle2:{
-    margin:5,
-    color:'white',
-    borderRadius:8,
-    textAlign:'center',
-    backgroundColor:'rgba(0, 0, 0,0.4)',
-    
+  dos: {
+    marginTop: 5,
+    marginBottom: 5,
+    backgroundColor: 'transparent'
+  },
+  subtitulos: {
+    fontSize: 20,
+    color: '#1f262edb',
+    marginLeft: 5,
+    marginTop: 5
+  },
+  searchBar: {
+    marginTop: 30,
+    marginLeft: 30,
+    marginRight: 30,
+  },
+  subtitle2: {
+    margin: 5,
+    color: 'white',
+    borderRadius: 8,
+    textAlign: 'center',
+    backgroundColor: 'rgba(0, 0, 0,0.4)',
+
   }
 
 });
